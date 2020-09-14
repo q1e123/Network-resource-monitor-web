@@ -33,5 +33,5 @@ out/
 ### VS Code ###
 .vscode/
 
-database_secret
+database-secret
 application.properties
