@@ -2,7 +2,12 @@
 This is the web application for the [Network Resouce Monitor](https://github.com/q1e123/Network-resource-monitor).
 
 # Features
+## Login
+* Using username and machine_id from desktop app database
 
+## Services
+* Get all systems
+* Get all users
 
 # Usage
 ## Init
