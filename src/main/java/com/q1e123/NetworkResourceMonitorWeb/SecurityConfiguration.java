@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/environment-variables-for/{usage-id}").hasRole("ADMIN")
                 .antMatchers("/cpu-usage-for/{usage-id}").hasRole("ADMIN")
                 .antMatchers("/network-usage-for/{usage-id}").hasRole("ADMIN")
+                .antMatchers("/user-list-for/{usage-id}").hasRole("ADMIN")
                 .and().formLogin();
     }
 
