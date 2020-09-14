@@ -1,0 +1,5 @@
+spring.datasource.url=SPRING_DB_URL
+spring.datasource.username=SPRING_DB_USERNAME
+spring.datasource.password=SPRING_DB_PASSWORD
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.session.jdbc.initialize-schema=always
