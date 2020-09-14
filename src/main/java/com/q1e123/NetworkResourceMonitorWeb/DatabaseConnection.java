@@ -1,4 +1,4 @@
-package com.q1e123.NetworkResourceMonitorWeb.model;
+package com.q1e123.NetworkResourceMonitorWeb;
 
 import java.io.File;
 import java.io.FileNotFoundException;

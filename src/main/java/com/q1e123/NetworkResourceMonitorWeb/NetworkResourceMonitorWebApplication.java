@@ -1,6 +1,5 @@
 package com.q1e123.NetworkResourceMonitorWeb;
 
-import com.q1e123.NetworkResourceMonitorWeb.model.DatabaseConnection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

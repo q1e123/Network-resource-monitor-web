@@ -1,7 +1,6 @@
 package com.q1e123.NetworkResourceMonitorWeb.service;
 
-import com.q1e123.NetworkResourceMonitorWeb.model.DatabaseConnection;
-import com.q1e123.NetworkResourceMonitorWeb.model.Systems;
+import com.q1e123.NetworkResourceMonitorWeb.DatabaseConnection;
 import com.q1e123.NetworkResourceMonitorWeb.model.Users;
 import org.springframework.stereotype.Service;
 
