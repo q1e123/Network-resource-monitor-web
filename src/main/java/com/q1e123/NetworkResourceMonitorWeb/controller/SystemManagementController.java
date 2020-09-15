@@ -24,12 +24,13 @@ public class SystemManagementController {
     @PostMapping("/add-new-system")
     public String addNewSystemSubmit(@ModelAttribute Systems systems, Model model) {
         systemService.insertSystems(systems);
+        model.addAttribute("systems", new Systems());
+        model.addAttribute("systemList", systemService.getAllSystems());
         return "system-management";
     }
 
     @PostMapping("/update-system")
     public String updateSystemSubmit(@ModelAttribute Systems systems, Model model) {
-        System.out.println(systems.toString());
         systemService.updateSystem(systems);
         model.addAttribute("systems", new Systems());
         model.addAttribute("systemList", systemService.getAllSystems());

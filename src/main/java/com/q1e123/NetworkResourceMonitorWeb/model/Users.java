@@ -1,16 +1,25 @@
 package com.q1e123.NetworkResourceMonitorWeb.model;
 
+import org.apache.catalina.User;
+
 public class Users {
-    private int id;
+    private Integer id;
     private String username;
-    private int userRole;
-    private int systemId;
+    private Integer userRole;
+    private Integer systemId;
 
     public Users(int id, String username, int userRole, int systemId) {
         this.id = id;
         this.username = username;
         this.userRole = userRole;
         this.systemId = systemId;
+    }
+
+    public Users(){
+        this.id = null;
+        this.username = null;
+        this.userRole = null;
+        this.systemId = null;
     }
 
     public int getId() {

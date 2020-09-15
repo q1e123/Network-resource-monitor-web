@@ -1,6 +1,7 @@
 package com.q1e123.NetworkResourceMonitorWeb.service;
 
 import com.q1e123.NetworkResourceMonitorWeb.DatabaseConnection;
+import com.q1e123.NetworkResourceMonitorWeb.model.Systems;
 import com.q1e123.NetworkResourceMonitorWeb.model.Users;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,50 @@ public class UsersService {
             }
         }
         return usersList;
+    }
+
+    public void insertUser(Users users){
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "INSERT INTO Users(username, usere_role, system_id) " +
+                    "VALUES ('" + users.getUsername() + "', " + users.getUserRole() + ", " + users.getSystemId() + ");";
+            ((java.sql.Statement) statement).executeUpdate(query);
+            ((java.sql.Statement) statement).close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUser(Users users){
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "UPDATE Users " +
+                    "SET username = '" + users.getUsername() + "' , user_role = " + users.getUserRole() + ", system_id  = " + users.getSystemId() +
+                    "WHERE id = " + users.getId() + ";";
+            ((java.sql.Statement) statement).executeUpdate(query);
+            ((java.sql.Statement) statement).close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
     }
 }
