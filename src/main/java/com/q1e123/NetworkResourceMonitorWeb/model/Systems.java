@@ -40,4 +40,17 @@ public class Systems {
     public void setMachineId(String machineId) {
         this.machineId = machineId;
     }
+
+    @Override
+    public String toString() {
+        return "Systems{" +
+                "id=" + id +
+                ", systemStatus=" + systemStatus +
+                ", machineId='" + machineId + '\'' +
+                '}';
+    }
+
+    public String systemStatusString(){
+        return this.systemStatus.toString();
+    }
 }

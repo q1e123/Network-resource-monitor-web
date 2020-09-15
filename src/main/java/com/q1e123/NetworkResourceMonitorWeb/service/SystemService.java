@@ -69,4 +69,27 @@ public class SystemService {
             }
         }
     }
+
+    public void updateSystem(Systems systems){
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "UPDATE Systems " +
+                    "SET machine_id = '" + systems.getMachineId() + "' " +
+                    "WHERE id = " + systems.getId() + ";";
+            ((java.sql.Statement) statement).executeUpdate(query);
+            ((java.sql.Statement) statement).close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
+    }
 }
