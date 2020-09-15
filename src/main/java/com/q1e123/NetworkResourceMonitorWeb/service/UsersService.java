@@ -56,7 +56,7 @@ public class UsersService {
             connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
 
-            String query = "INSERT INTO Users(username, usere_role, system_id) " +
+            String query = "INSERT INTO Users(username, user_role, system_id) " +
                     "VALUES ('" + users.getUsername() + "', " + users.getUserRole() + ", " + users.getSystemId() + ");";
             ((java.sql.Statement) statement).executeUpdate(query);
             ((java.sql.Statement) statement).close();
@@ -79,7 +79,7 @@ public class UsersService {
             Statement statement = connection.createStatement();
 
             String query = "UPDATE Users " +
-                    "SET username = '" + users.getUsername() + "' , user_role = " + users.getUserRole() + ", system_id  = " + users.getSystemId() +
+                    "SET username = '" + users.getUsername() + "' , user_role = " + users.getUserRole() + ", system_id  = " + users.getSystemId() + " "+
                     "WHERE id = " + users.getId() + ";";
             ((java.sql.Statement) statement).executeUpdate(query);
             ((java.sql.Statement) statement).close();

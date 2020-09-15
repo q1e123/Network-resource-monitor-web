@@ -38,19 +38,29 @@ public class Users {
         this.username = username;
     }
 
-    public int getUserRole() {
+    public Integer getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(int userRole) {
+    public void setUserRole(Integer userRole) {
         this.userRole = userRole;
     }
 
-    public int getSystemId() {
+    public Integer getSystemId() {
         return systemId;
     }
 
-    public void setSystemId(int systemId) {
+    public void setSystemId(Integer systemId) {
         this.systemId = systemId;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", userRole=" + userRole +
+                ", systemId=" + systemId +
+                '}';
     }
 }
