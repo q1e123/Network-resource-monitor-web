@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class AddNewSystem {
-    @GetMapping("/add-new-system")
-    public String addNewUserForm(Model model) {
+public class SystemManagement {
+    @GetMapping("/system-management")
+    public String createPage(Model model) {
         model.addAttribute("systems", new Systems());
-        return "add-new-system";
+        return "system-management";
     }
 
     @PostMapping("/add-new-system")
-    public void addNewUserSubmit(@ModelAttribute Systems systems, Model model) {
+    public String addNewUserSubmit(@ModelAttribute Systems systems, Model model) {
         SystemService systemService = new SystemService();
         systemService.insertSystems(systems);
+        return "system-management";
     }
 }
