@@ -47,4 +47,26 @@ public class SystemService {
             }
             return  systems;
     }
+
+    public void insertSystems(Systems systems){
+        Connection connection = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "INSERT INTO Systems(machine_id, system_status) " +
+                        "VALUES ('" + systems.getMachineId() + "', 0);";
+            ((java.sql.Statement) statement).executeUpdate(query);
+            ((java.sql.Statement) statement).close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
+    }
 }

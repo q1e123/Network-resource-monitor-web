@@ -1,14 +1,20 @@
 package com.q1e123.NetworkResourceMonitorWeb.model;
 
 public class Systems {
-    private int id;
-    private int systemStatus;
+    private Integer id;
+    private Integer systemStatus;
     private String machineId;
 
     public Systems(int id, int systemStatus, String machineId) {
         this.id = id;
         this.systemStatus = systemStatus;
         this.machineId = machineId;
+    }
+
+    public Systems(){
+        this.id = null;
+        this.systemStatus = null;
+        this.machineId = null;
     }
 
     public int getId() {
@@ -27,11 +33,11 @@ public class Systems {
         this.systemStatus = systemStatus;
     }
 
-    public String getMachineID() {
+    public String getMachineId() {
         return machineId;
     }
 
-    public void setMachineID(String machineId) {
+    public void setMachineId(String machineId) {
         this.machineId = machineId;
     }
 }
