@@ -40,6 +40,8 @@ public class MyMachineController {
     public String createPage(Model model) {
         String username = AuthenticationUtils.getCurrentUsername();
         Systems system = systemService.getSystemFor(username);
+
+        System.out.println(system.toString());
         UsageData usageData = usageDataService.getUsageDataFor(system.getMachineId());
         int usageDataId = usageData.getId();
         List<CpuUsage> cpuUsageList = cpuUsageService.getCpuUsageFor(usageDataId);

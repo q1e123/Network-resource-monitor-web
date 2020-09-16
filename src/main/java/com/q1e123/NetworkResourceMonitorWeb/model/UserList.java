@@ -1,6 +1,7 @@
 package com.q1e123.NetworkResourceMonitorWeb.model;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class UserList {
     private int id;
@@ -45,5 +46,21 @@ public class UserList {
 
     public void setUsageId(int usageId) {
         this.usageId = usageId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserList userList = (UserList) o;
+        return id == userList.id &&
+                usageId == userList.usageId &&
+                Objects.equals(username, userList.username) &&
+                Objects.equals(lastLogin, userList.lastLogin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, lastLogin, usageId);
     }
 }
