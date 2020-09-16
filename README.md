@@ -1,12 +1,14 @@
 # Network resource monitor web application
 This is the web application for the [Network Resouce Monitor](https://github.com/q1e123/Network-resource-monitor).
 
-## Dependencies
+## Technologies
+* Java
 * Spring Boot
 * Spring Security
 * JDBC
 * MySql-connector
 * Thymeleaf
+* jQuery
 
 ## Features
 ### Login
@@ -29,6 +31,19 @@ This is the web application for the [Network Resouce Monitor](https://github.com
 ### User management
 * Add new user
 * Modify current users 
+
+### My machine
+* Real time tracking of:
+    * Operating System
+    * Current user
+    * Avalabile space
+    * RAM (total, used, avalabile)
+    * Cpu usage (per core)
+    * Network usage (per interface)
+    * IPv4 / interface
+    * Last login for every user
+    * Environment variables
+* Check if a software is installed
 
 ## Usage
 ### Init
