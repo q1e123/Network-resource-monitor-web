@@ -44,11 +44,17 @@
     <script>
         var lastLoginMap = {};
         var softwareList = [];
+        var environmentVariableMap = {};
     </script>
     <script>
         $(document).ready(function() {
             $("#userSelect").change(function() {
                 $('#lastLogin').html(lastLoginMap[$(this).val()]);
+            }).change();
+
+
+            $("#environmentVariableSelect").change(function() {
+                $('#environmentVariableValue').html(environmentVariableMap[$(this).val()]);
             }).change();
 
             $('#checkSoftwareButton').click(function(){
@@ -137,6 +143,7 @@
         <option th:each="user : ${userLists}" th:value="${user.username}" th:text="${user.username}">
         </option>
     </select>
+
     <script th:each="user : ${userLists}" th:inline="javascript">
         /*<![CDATA[*/
         var key = /*[[${user.username}]]*/ 'default';
@@ -144,13 +151,26 @@
         lastLoginMap[key] = val;
         /*]]>*/
     </script>
+    <label>Last login: <span id="lastLogin"></span></label>
+    <select class="form-control" id="environmentVariableSelect" name="userSelect">
+        <option th:each="variable : ${environmentVariablesList}" th:value="${variable.variable}" th:text="${variable.variable}">
+        </option>
+    </select>
+    <script th:each="variable : ${environmentVariablesList}" th:inline="javascript">
+        /*<![CDATA[*/
+        var key = /*[[${variable.variable}]]*/ 'default';
+        var val = /*[[${variable.variableValue}]]*/ 'default';
+        environmentVariableMap[key] = val;
+        /*]]>*/
+    </script>
+    <label>Environment variable value: <span id="environmentVariableValue"></span></label>
+
     <script th:inline="javascript">
         /*<![CDATA[*/
         var software = /*[[${program}]]*/ 'default';
         softwareList.push(software);
         /*]]>*/
     </script>
-    <label>Last login: <span id="lastLogin"></span></label>
     <br>
     <div class="form-group">
         <label for="softwareInput">Check if a software is installed: </label>
