@@ -27,7 +27,6 @@ public class UsageDataService {
                         "WHERE system_id = (SELECT  id FROM Systems WHERE machine_id = '" + machineId + "') " +
                         "ORDER BY usage_timestamp DESC " +
                         "LIMIT 1";
-            System.out.println(query);
             ResultSet resultSet = ((java.sql.Statement) statement).executeQuery(query);
 
             while (resultSet.next()){
