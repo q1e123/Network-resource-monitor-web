@@ -6,7 +6,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -37,9 +39,15 @@
                 $("#environmentVariablesList").replaceWith(fragment);
             });
         }
+        function updateRam() {
+            $.get("ram", function(fragment) {
+                $("#ram").replaceWith(fragment);
+            });
+        }
         const intervalCpuUsage = setInterval(updateCpuUsage, 1000);
         const intervalUsageData = setInterval(updateUsageData, 1000);
         const intervalNetworkUsage = setInterval(updateNetworkUsage, 1000);
+        const intervalRam = setInterval(updateRam, 1000);
     </script>
     <script>
         var lastLoginMap = {};
@@ -97,90 +105,110 @@
     </div>
 </nav>
 <div class="container" style="padding:100px;margin-top:30px;background-color: #e3f2fd;">
-    <h1>My machine</h1>
-    <div id="usageData">
-        <h2>System info</h2>
-        <span>Operating system: </span><span th:text="${usageData.operatingSystem}"></span>
-        <br>
-        <span>Current user</span><span th:text="${usageData.username}"></span>
-        <br>
-        <span>Avalabile space:</span> <span th:text="${usageData.avalabileSpace}"></span>
-        <br>
-        <h2>Performance</h2>
-        <h3>RAM</h3>
-        <span>Total RAM:</span> <span th:text="${usageData.totalRam}"></span>
-        <br>
-        <span>Used RAM:</span> <span th:text="${usageData.usedRam}"></span>
-        <br>
-        <span>Avalabile RAM:</span> <span th:text="${usageData.freeRam}"></span>
-    </div>
+    <h1 class="text-center">My machine</h1>
 
-    <h3>CPU</h3>
-    <div id="cpuUsageList">
-        <div th:each="cpu: ${cpuUsageList}">
-            <span th:text="${cpu.cpuName} + ':'"></span> <span th:text="${cpu.cpuUsage}"></span>
+    <ul class="nav nav-pills">
+        <li><a data-toggle="pill" href="#menu1">System Info</a></li>
+        <li><a data-toggle="pill" href="#menu2">Performance</a></li>
+        <li><a data-toggle="pill" href="#menu3">Administration</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="menu1" class="tab-pane fade">
+            <div id="usageData">
+                <b><span>Operating system: </span></b><span th:text="${usageData.operatingSystem}"></span>
+                <br>
+                <b><span>Current user:</span></b> <span th:text="${usageData.username}"></span>
+                <br>
+                <b><span>Avalabile space:</span></b> <span th:text="${usageData.avalabileSpace}"></span>
+                <br>
+            </div>
+
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <div id="ram">
+                <h3>RAM</h3>
+                <b><span>Total RAM:</span></b> <span th:text="${totalRam}"></span>
+                <br>
+                <b><span>Used RAM:</span></b> <span th:text="${usedRam}"></span>
+                <br>
+                <b><span>Avalabile RAM:</span></b> <span th:text="${freeRam}"></span>
+            </div>
+
+            <h3>CPU</h3>
+            <div id="cpuUsageList">
+                <div th:each="cpu: ${cpuUsageList}">
+                    <b><span th:text="${cpu.cpuName} + ':'"></b></span> <span th:text="${cpu.cpuUsage}"></span>
+                </div>
+            </div>
+            <h3>Network</h3>
+            <div id="networkUsageList">
+                <div class="row justify-content-center">
+                    <div class="col" th:each="network: ${networkUsageList}">
+                        <h4 th:text="${network.interfaceName}"></h4>
+                        <br>
+                        <b><span>IPv4:</span></b> <span th:text="${network.ipv4}"></span>
+                        <br>
+                        <b><span>rx:</span></b> <span th:text="${network.rx}"></span>
+                        <br>
+                        <b><span>tx:</span></b> <span th:text="${network.tx}"></span>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div id="menu3" class="tab-pane fade">
+            <h3>User last login</h3>
+            <select class="form-control" id="userSelect" name="userSelect">
+                <option th:each="user : ${userLists}" th:value="${user.username}" th:text="${user.username}">
+                </option>
+            </select>
+
+            <script th:each="user : ${userLists}" th:inline="javascript">
+                /*<![CDATA[*/
+                var key = /*[[${user.username}]]*/ 'default';
+                var val = /*[[${user.lastLogin}]]*/ 'default';
+                lastLoginMap[key] = val;
+                /*]]>*/
+            </script>
+            <label>Last login: <span id="lastLogin"></span></label>
+            <h3>Environment variables</h3>
+            <select class="form-control" id="environmentVariableSelect" name="userSelect">
+                <option th:each="variable : ${environmentVariablesList}" th:value="${variable.variable}" th:text="${variable.variable}">
+                </option>
+            </select>
+            <script th:each="variable : ${environmentVariablesList}" th:inline="javascript">
+                /*<![CDATA[*/
+                var key = /*[[${variable.variable}]]*/ 'default';
+                var val = /*[[${variable.variableValue}]]*/ 'default';
+                environmentVariableMap[key] = val;
+                /*]]>*/
+            </script>
+            <label>Environment variable value: <span id="environmentVariableValue"></span></label>
+            <script th:each="program : ${usageData.programList}" th:inline="javascript">
+                /*<![CDATA[*/
+                var software = /*[[${program}]]*/ 'default';
+                softwareList.push(software);
+                /*]]>*/
+            </script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var software = /*[[${program}]]*/ 'default';
+                softwareList.push(software);
+                /*]]>*/
+            </script>
+            <br>
+            <h3>Installed software</h3>
+            <div class="form-group">
+                <label for="softwareInput">Check if a software is installed: </label>
+                <input type="text" class="form-control" id="softwareInput" placeholder="Enter a software">
+            </div>
+            <p><input id="checkSoftwareButton" class="btn btn-success" type="button" value="Check" />
         </div>
     </div>
-    <h3>Network</h3>
-    <div id="networkUsageList">
-        <div th:each="network: ${networkUsageList}">
-            <h4 th:text="${network.interfaceName}"></h4>
-            <br>
-            <span>IPv4:</span> <span th:text="${network.ipv4}"></span>
-            <br>
-            <span>rx:</span> <span th:text="${network.rx}"></span>
-            <br>
-            <span>tx:</span> <span th:text="${network.tx}"></span>
-        </div>
-    </div>
-
-    <script th:each="program : ${usageData.programList}" th:inline="javascript">
-        /*<![CDATA[*/
-        var software = /*[[${program}]]*/ 'default';
-        softwareList.push(software);
-        /*]]>*/
-    </script>
-
-    <h2>Administration</h2>
-    <select class="form-control" id="userSelect" name="userSelect">
-        <option th:each="user : ${userLists}" th:value="${user.username}" th:text="${user.username}">
-        </option>
-    </select>
-
-    <script th:each="user : ${userLists}" th:inline="javascript">
-        /*<![CDATA[*/
-        var key = /*[[${user.username}]]*/ 'default';
-        var val = /*[[${user.lastLogin}]]*/ 'default';
-        lastLoginMap[key] = val;
-        /*]]>*/
-    </script>
-    <label>Last login: <span id="lastLogin"></span></label>
-    <select class="form-control" id="environmentVariableSelect" name="userSelect">
-        <option th:each="variable : ${environmentVariablesList}" th:value="${variable.variable}" th:text="${variable.variable}">
-        </option>
-    </select>
-    <script th:each="variable : ${environmentVariablesList}" th:inline="javascript">
-        /*<![CDATA[*/
-        var key = /*[[${variable.variable}]]*/ 'default';
-        var val = /*[[${variable.variableValue}]]*/ 'default';
-        environmentVariableMap[key] = val;
-        /*]]>*/
-    </script>
-    <label>Environment variable value: <span id="environmentVariableValue"></span></label>
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var software = /*[[${program}]]*/ 'default';
-        softwareList.push(software);
-        /*]]>*/
-    </script>
-    <br>
-    <div class="form-group">
-        <label for="softwareInput">Check if a software is installed: </label>
-        <input type="text" class="form-control" id="softwareInput" placeholder="Enter a software">
-    </div>
-    <p><input id="checkSoftwareButton" class="btn btn-success" type="button" value="Check" />
-
 </div>
 </body>
 </html>

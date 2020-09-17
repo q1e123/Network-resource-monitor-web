@@ -54,6 +54,9 @@ public class MyMachineController {
         model.addAttribute("networkUsageList", networkUsageList);
         model.addAttribute("environmentVariablesList", environmentVariablesList);
         model.addAttribute("userLists", userLists);
+        model.addAttribute("totalRam", usageData.getTotalRam());
+        model.addAttribute("usedRam", usageData.getUsedRam());
+        model.addAttribute("freeRam", usageData.getFreeRam());
 
         return "my-machine";
     }
@@ -64,6 +67,16 @@ public class MyMachineController {
         map.addAttribute("usageData", usageData);
 
         return "my-machine :: #usageData";
+    }
+
+    @RequestMapping(value="/ram", method= RequestMethod.GET)
+    public String getRam(ModelMap map) {
+        UsageData usageData = getUsageDataFromDatabase();
+        map.addAttribute("totalRam", usageData.getTotalRam());
+        map.addAttribute("usedRam", usageData.getUsedRam());
+        map.addAttribute("freeRam", usageData.getFreeRam());
+
+        return "my-machine :: #ram";
     }
 
     private UsageData getUsageDataFromDatabase(){

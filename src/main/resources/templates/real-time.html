@@ -77,34 +77,44 @@
 <div class="container" style="padding:100px;margin-top:30px;background-color: #e3f2fd;">
     <div id="machineList" th:each="machine: ${machineList}">
         <h2>System info</h2>
-        <span>Operating system: </span><span th:text="${machine.usageData.operatingSystem}"></span>
+        <b><span>Operating system: </span></b><span th:text="${machine.usageData.operatingSystem}"></span>
         <br>
-        <span>Current user</span><span th:text="${machine.usageData.username}"></span>
+        <b><span>Current user:</span></b> <span th:text="${machine.usageData.username}"></span>
         <br>
-        <span>Avalabile space:</span> <span th:text="${machine.usageData.avalabileSpace}"></span>
+        <b><span>Avalabile space:</span></b> <span th:text="${machine.usageData.avalabileSpace}"></span>
         <br>
         <h2>Performance</h2>
-        <h3>RAM</h3>
-        <span>Total RAM:</span> <span th:text="${machine.usageData.totalRam}"></span>
-        <br>
-        <span>Used RAM:</span> <span th:text="${machine.usageData.usedRam}"></span>
-        <br>
-        <span>Avalabile RAM:</span> <span th:text="${machine.usageData.freeRam}"></span>
-
-        <h3>CPU</h3>
-        <div th:each="cpu: ${machine.cpuUsageList}">
-            <span th:text="${cpu.cpuName} + ':'"></span> <span th:text="${cpu.cpuUsage}"></span>
+        <div class="row justify-content-center">
+            <div class="col">
+                <h3>RAM</h3>
+                <b><span>Total RAM:</span></b> <span th:text="${machine.usageData.totalRam}"></span>
+                <br>
+                <b><span>Used RAM:</span></b> <span th:text="${machine.usageData.usedRam}"></span>
+                <br>
+                <b><span>Avalabile RAM:</span></b> <span th:text="${machine.usageData.freeRam}"></span>
+            </div>
+            <div class="col">
+                <h3>CPU</h3>
+                <div th:each="cpu: ${machine.cpuUsageList}">
+                    <b><span th:text="${cpu.cpuName} + ':'"></span></b> <span th:text="${cpu.cpuUsage}"></span>
+                </div>
+            </div>
         </div>
         <h3>Network</h3>
-        <div th:each="network: ${machine.networkUsageList}">
-            <h4 th:text="${network.interfaceName}"></h4>
-            <br>
-            <span>IPv4:</span> <span th:text="${network.ipv4}"></span>
-            <br>
-            <span>rx:</span> <span th:text="${network.rx}"></span>
-            <br>
-            <span>tx:</span> <span th:text="${network.tx}"></span>
+
+        <div class="row justify-content-center">
+            <div class="col" th:each="network: ${machine.networkUsageList}">
+                <h4 th:text="${network.interfaceName}"></h4>
+                <br>
+                <b><span>IPv4:</span></b> <span th:text="${network.ipv4}"></span>
+                <br>
+                <b><span>rx:</span></b> <span th:text="${network.rx}"></span>
+                <br>
+                <b><span>tx:</span></b> <span th:text="${network.tx}"></span>
+            </div>
         </div>
+
+
     </div>
 
 </div>
