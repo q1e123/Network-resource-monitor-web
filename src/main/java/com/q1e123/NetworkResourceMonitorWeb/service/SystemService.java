@@ -125,4 +125,40 @@ public class SystemService {
         }
         return system;
     }
+
+    public List<Systems> getActiveSystems(){
+        Connection connection = null;
+        List<Systems> systems = new ArrayList<>();
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * FROM Systems WHERE system_status = 1;";
+            ResultSet resultSet = ((java.sql.Statement) statement).executeQuery(query);
+
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                int systemStatus = resultSet.getInt("system_status");
+                String machineId = resultSet.getString("machine_id");
+
+                Systems system = new Systems(id, systemStatus, machineId);
+
+                systems.add(system);
+            }
+
+            ((java.sql.Statement) statement).close();
+            resultSet.close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
+        return  systems;
+    }
+
 }
