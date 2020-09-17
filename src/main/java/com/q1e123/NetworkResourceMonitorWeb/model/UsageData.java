@@ -107,4 +107,20 @@ public class UsageData {
     public void setSystemId(int systemId) {
         this.systemId = systemId;
     }
+
+    @Override
+    public String toString() {
+        return "UsageData{" +
+                "id=" + id +
+                ", totalRam=" + totalRam +
+                ", usedRam=" + usedRam +
+                ", freeRam=" + freeRam +
+                ", avalabileSpace=" + avalabileSpace +
+                ", usageTimestamp=" + usageTimestamp +
+                ", username='" + username + '\'' +
+                ", operatingSystem='" + operatingSystem + '\'' +
+                ", programList=" + programList +
+                ", systemId=" + systemId +
+                '}';
+    }
 }

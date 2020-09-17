@@ -15,28 +15,27 @@ public class Machine {
     private List<NetworkUsage> networkUsageList;
     private List<UserList> userLists;
 
-    @Autowired
     private CpuUsageService cpuUsageService;
-
-    @Autowired
     private EnvironmentVariablesService environmentVariablesService;
-
-    @Autowired
     private NetworkUsageService networkUsageService;
-
-    @Autowired
     private UsageDataService usageDataService;
-
-    @Autowired
     private UserListService userListService;
 
     public Machine(String machineId){
         this.machineId = machineId;
+        cpuUsageService = new CpuUsageService();
+        environmentVariablesService = new EnvironmentVariablesService();
+        networkUsageService = new NetworkUsageService();
+        usageDataService = new UsageDataService();
+        userListService = new UserListService();
     }
 
     public void build(){
+        System.out.println("build");
+        System.out.println("ID: " + machineId);
         usageData = usageDataService.getUsageDataFor(machineId);
         int usageDataId = usageData.getId();
+        System.out.println("Usage ID: " + usageDataId);
         cpuUsageList = cpuUsageService.getCpuUsageFor(usageDataId);
         environmentVariablesList = environmentVariablesService.getEnvironmentVariablesFor(usageDataId);
         networkUsageList = networkUsageService.getNetworkUsageFor(usageDataId);
