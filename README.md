@@ -45,6 +45,8 @@ This is the web application for the [Network Resouce Monitor](https://github.com
     * Environment variables
 * Check if a software is installed
 
+### Real-time
+* Real time tracking of active machines from the network (same as my machine)
 ## Usage
 ### Init
 You need to create a database_secret and a  application.properties  file where you need to put username and password for Network resource monitor desktop app
