@@ -17,20 +17,21 @@ import java.util.List;
 
 @Controller
 public class RealTimeController {
+    @Autowired
+    private SystemService systemService;
 
     @GetMapping("/real-time")
     public String createPage(Model model) {
-
-        List<Machine> machineList = MachineUtils.getActiveMachines();
-        model.addAttribute("machineList", machineList);
+        List<Systems> systemsList = systemService.getActiveSystems();
+        model.addAttribute("systemsList", systemsList);
         return "real-time";
     }
 
     @RequestMapping(value="/machineList", method= RequestMethod.GET)
     public String getCpuUsageList(ModelMap map) {
-        List<Machine> machineList = MachineUtils.getActiveMachines();
-        map.addAttribute("machineList", machineList);
+        List<Systems> systemsList = systemService.getActiveSystems();
+        map.addAttribute("systemsList", systemsList);
 
-        return "real-time :: #machineList";
+        return "real-time :: #systemsList";
     }
 }

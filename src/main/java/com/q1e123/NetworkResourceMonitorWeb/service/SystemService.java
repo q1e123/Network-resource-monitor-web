@@ -161,4 +161,36 @@ public class SystemService {
         return  systems;
     }
 
+    public Systems getSystemWith(String machineId){
+        Connection connection = null;
+        Systems systems = null;
+        try{
+            connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * " +
+                        "FROM Systems " +
+                        "WHERE machine_id = '"+ machineId +"';";
+            ResultSet resultSet = ((java.sql.Statement) statement).executeQuery(query);
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            int systemStatus = resultSet.getInt("system_status");
+
+            Systems system = new Systems(id, systemStatus, machineId);
+
+            ((java.sql.Statement) statement).close();
+            resultSet.close();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+            java.lang.System.out.println(exception.getMessage());
+        }finally {
+            try{
+                connection.close();
+            }catch (SQLException exception){
+                exception.printStackTrace();
+            }
+        }
+        return systems;
+    }
+
 }
