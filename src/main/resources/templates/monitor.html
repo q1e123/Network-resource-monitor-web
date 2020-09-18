@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>System Management</title>
+    <script>
+        var machineId = "";
+
+        function updateCpuUsage() {
+            $.get("./cpuUsageList/" + machineId, function(fragment) {
+                $("#cpuUsageList").replaceWith(fragment);
+            });
+        }
+        function updateUsageData() {
+            $.get("./usageData/" + machineId, function(fragment) {
+                $("#usageData").replaceWith(fragment);
+            });
+        }
+        function updateNetworkUsage() {
+            $.get("./networkUsageList/" + machineId, function(fragment) {
+                $("#networkUsageList").replaceWith(fragment);
+            });
+        }
+        function updateUserLists() {
+            $.get("./userLists/" + machineId, function(fragment) {
+                $("#userLists").replaceWith(fragment);
+            });
+        }
+        function uptateEnvironmentVariableList() {
+            $.get("./environmentVariablesList/" + machineId, function(fragment) {
+                $("#environmentVariablesList").replaceWith(fragment);
+            });
+        }
+        function updateRam() {
+            $.get("./ram" + machineId, function(fragment) {
+                $("#ram").replaceWith(fragment);
+            });
+        }
+        const intervalCpuUsage = setInterval(updateCpuUsage, 1000);
+        const intervalUsageData = setInterval(updateUsageData, 1000);
+        const intervalNetworkUsage = setInterval(updateNetworkUsage, 1000);
+        const intervalRam = setInterval(updateRam, 1000);
+    </script>
+    <script>
+        var lastLoginMap = {};
+        var softwareList = [];
+        var environmentVariableMap = {};
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#userSelect").change(function() {
+                $('#lastLogin').html(lastLoginMap[$(this).val()]);
+            }).change();
+
+
+            $("#environmentVariableSelect").change(function() {
+                $('#environmentVariableValue').html(environmentVariableMap[$(this).val()]);
+            }).change();
+
+            $('#checkSoftwareButton').click(function(){
+                var message = "";
+                var soft = document.getElementById('softwareInput').value;
+                if (softwareList.includes(soft)) {
+                    message = soft + " is installed";
+                } else {
+                    message = soft + " is not installed";
+                }
+                alert(message);
+            });
+        });
+    </script>
+</head>
+<body style="background-color: #b7defa;">
+<nav class = "navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">Network Resource Monitor</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href = "/"> Home </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href = "../../my-machine"> My machine </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href = "../../system-management"> System Management </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href = "../../user-management"> User Management </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href = "../../real-time"> Real Time </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container" style="padding:100px;margin-top:30px;background-color: #e3f2fd;">
+    <h1 class="text-center" th:text="${machineId}"></h1>
+
+    <ul class="nav nav-pills">
+        <li><a data-toggle="pill" href="#menu1">System Info</a></li>
+        <li><a data-toggle="pill" href="#menu2">Performance</a></li>
+        <li><a data-toggle="pill" href="#menu3">Administration</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="menu1" class="tab-pane fade">
+            <div id="usageData">
+                <b><span>Operating system: </span></b><span th:text="${usageData.operatingSystem}"></span>
+                <br>
+                <b><span>Current user:</span></b> <span th:text="${usageData.username}"></span>
+                <br>
+                <b><span>Avalabile space:</span></b> <span th:text="${usageData.avalabileSpace}"></span>
+                <br>
+            </div>
+
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <div id="ram">
+                <h3>RAM</h3>
+                <b><span>Total RAM:</span></b> <span th:text="${totalRam}"></span>
+                <br>
+                <b><span>Used RAM:</span></b> <span th:text="${usedRam}"></span>
+                <br>
+                <b><span>Avalabile RAM:</span></b> <span th:text="${freeRam}"></span>
+            </div>
+
+            <h3>CPU</h3>
+            <div id="cpuUsageList">
+                <div th:each="cpu: ${cpuUsageList}">
+                    <b><span th:text="${cpu.cpuName} + ':'"></b></span> <span th:text="${cpu.cpuUsage}"></span>
+                </div>
+            </div>
+            <h3>Network</h3>
+            <div id="networkUsageList">
+                <div class="row justify-content-center">
+                    <div class="col-md-4" th:each="network: ${networkUsageList}">
+                        <h4 th:text="${network.interfaceName}"></h4>
+                        <br>
+                        <b><span>IPv4:</span></b> <span th:text="${network.ipv4}"></span>
+                        <br>
+                        <b><span>rx:</span></b> <span th:text="${network.rx}"></span>
+                        <br>
+                        <b><span>tx:</span></b> <span th:text="${network.tx}"></span>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div id="menu3" class="tab-pane fade">
+            <h3>User last login</h3>
+            <select class="form-control" id="userSelect" name="userSelect">
+                <option th:each="user : ${userLists}" th:value="${user.username}" th:text="${user.username}">
+                </option>
+            </select>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                machineId = /*[[${machineId}]]*/ 'default';
+                /*]]>*/
+            </script>
+            <script th:each="user : ${userLists}" th:inline="javascript">
+                /*<![CDATA[*/
+                var key = /*[[${user.username}]]*/ 'default';
+                var val = /*[[${user.lastLogin}]]*/ 'default';
+                lastLoginMap[key] = val;
+                /*]]>*/
+            </script>
+            <label>Last login: <span id="lastLogin"></span></label>
+            <h3>Environment variables</h3>
+            <select class="form-control" id="environmentVariableSelect" name="userSelect">
+                <option th:each="variable : ${environmentVariablesList}" th:value="${variable.variable}" th:text="${variable.variable}">
+                </option>
+            </select>
+            <script th:each="variable : ${environmentVariablesList}" th:inline="javascript">
+                /*<![CDATA[*/
+                var key = /*[[${variable.variable}]]*/ 'default';
+                var val = /*[[${variable.variableValue}]]*/ 'default';
+                environmentVariableMap[key] = val;
+                /*]]>*/
+            </script>
+            <label>Environment variable value: <span id="environmentVariableValue"></span></label>
+            <script th:each="program : ${usageData.programList}" th:inline="javascript">
+                /*<![CDATA[*/
+                var software = /*[[${program}]]*/ 'default';
+                softwareList.push(software);
+                /*]]>*/
+            </script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var software = /*[[${program}]]*/ 'default';
+                softwareList.push(software);
+                /*]]>*/
+            </script>
+            <br>
+            <h3>Installed software</h3>
+            <div class="form-group">
+                <label for="softwareInput">Check if a software is installed: </label>
+                <input type="text" class="form-control" id="softwareInput" placeholder="Enter a software">
+            </div>
+            <p><input id="checkSoftwareButton" class="btn btn-success" type="button" value="Check" />
+        </div>
+    </div>
+</div>
+</body>
+</html>

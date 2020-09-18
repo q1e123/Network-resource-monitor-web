@@ -176,7 +176,7 @@ public class SystemService {
             int id = resultSet.getInt("id");
             int systemStatus = resultSet.getInt("system_status");
 
-            Systems system = new Systems(id, systemStatus, machineId);
+            systems = new Systems(id, systemStatus, machineId);
 
             ((java.sql.Statement) statement).close();
             resultSet.close();
