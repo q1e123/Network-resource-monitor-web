@@ -1,5 +1,6 @@
 # Network resource monitor web application
 This is the web application for the [Network Resouce Monitor](https://github.com/q1e123/Network-resource-monitor).
+Project started during Siemens internship.
 
 ## Technologies
 * Java
